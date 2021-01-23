@@ -1,0 +1,12 @@
+I am using bash
+
+find . -name '*''.tex
+
+grep "tomato" -n file1.txt file2.txt
+
+grep "pepper" -v file1.txt file2.txt | wc -l
+
+find . -name '*'.txt -exec grep "Grade" {} +
+
+cat file1.txt file2.txt | tr "[:upper:]" "[:lower:]"
+
