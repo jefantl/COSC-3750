@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#### CONSTANTS
+MODIFIED_ON="Modified on: $(date +"%A, %b %d, %Y: %H%M")"
+MODIFIED_BY="Modified by: $USER"
+
+if [ $# == 0 ]; then
+    echo "usage: modify filename [filename ...]"
+else
+    for filename in $@
+    do
+        if [ "$(file $filename)" = "$filename: ASCII text" ]; then
+            # adding last two lines
+            printf "a\n$MODIFIED_ON\n.\nw\nq\n" | ed -s $filename
+            printf "a\n$MODIFIED_BY\n.\nw\nq\n" | ed -s $filename
+#             ed -s $filename <<EOF
+#             a
+#             $MODIFIED_BY
+#             .
+#             w
+#             q
+# EOF
+            
+            # interchanging first two lines
+            printf "1m2\nw\nq\n" | ed -s $filename
+            
+            # replace Gradez with Grades
+            printf ",s/Gradez/Grades/g\nw\nq\n" | ed -s $filename > /dev/null 2>&1
+            
+        elif [ -d $filename ]; then
+            echo modify: $filename, is a directory.
+        elif [ -e $filename ]; then
+            echo modify: $filename, cannot edit executables.
+        else
+            echo modify: $filename, filetype not supported.
+        fi
+    done
+fi
