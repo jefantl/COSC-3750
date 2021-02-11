@@ -1,0 +1,12 @@
+// C program to illustrate file inclusion 
+// <> used to import system header file 
+// " " used to import user-defined file 
+#include "process.h" 
+  
+// main function 
+int main() 
+{ 
+    int t = three();
+  
+    return 0; 
+} 
