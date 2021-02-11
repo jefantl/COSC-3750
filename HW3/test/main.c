@@ -1,10 +1,6 @@
-// C program to illustrate file inclusion 
-// <> used to import system header file 
-// " " used to import user-defined file 
-#include "process.h" 
-  
-int x;
+#include <stdio.h>
+#include "process.h"
 
-int main (void) {
-   test ();
+int main(void) {
+  printf("%u", calculateAge(1983));
 }

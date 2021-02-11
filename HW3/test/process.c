@@ -1,5 +1,4 @@
-#include "process.h" 
-
-int three() {
-return 3;
+int calculateAge(int year) {
+  const int CURRENT_YEAR = 2020;
+  return CURRENT_YEAR - year;
 }

@@ -1,2 +1,2 @@
-char *test (void);
+int calculateAge(int year);
 

@@ -16,7 +16,7 @@ OBJS = display.o compute.o prompt.o
 .PHONY: tidy clean
 
 approxe: approxe.c $(OBJS)
-	$(CC) $(CFLAGS) approxe.c -o approxe
+	$(CC) $(CFLAGS) approxe.c $(OBJS) -o approxe
 
 display.o: display.h display.c
 	$(CC) $(CFLAGS) -c display.c
