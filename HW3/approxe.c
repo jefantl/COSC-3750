@@ -7,9 +7,9 @@
  * the constant e.
  ***************************/
 
-#include"prompt.h"
-#include"compute.h"
-#include"display.h"
+#include<prompt.h>
+#include<compute.h>
+#include<display.h>
 
 
 /****************
