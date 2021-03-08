@@ -1,0 +1,28 @@
+/*
+* hw5_pcode.txt
+* Author: Jason Fantl
+* Date: Mar 02, 2021
+*
+* COSC 3750, Homework 5
+*
+* This is the pseudocode for wyls, a simple version of the ls utility
+*
+*/
+
+
+if no arguments passed to program:
+    read from stdin
+    write to stdout
+else:
+    for each argument in passed arguments:
+        if argument is '-':
+            read from stdin
+            write to stdout 
+        else:
+            open file
+            if file is valid:
+                read from file
+                write to stdout
+            else:
+                report this is not a valid file
+
