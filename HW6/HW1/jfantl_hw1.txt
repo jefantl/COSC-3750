@@ -1,0 +1,15 @@
+I am using bash
+
+find . -name '*'.tex
+
+grep "tomato" -n file1.txt file2.txt
+
+grep "pepper" -v file1.txt file2.txt | wc -l
+
+find . -name '*'.txt -exec grep "Grade" {} +
+
+cat file1.txt file2.txt | tr "[:upper:]" "[:lower:]"
+
+cut -c 2-6 file1.txt file2.txt | sort -n
+
+cut -s -d ',' -f 3 file1.txt file2.txt | sort -u

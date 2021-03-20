@@ -1,40 +1,50 @@
+/*
+* wytarExtract.c
+* Author: Jason Fantl
+* Date: Mar 16, 2021
+*
+* COSC 3750, Homework 6
+*
+* A helper file for wytar.c that extracts a tar archive
+*
+*/
+
 #include "wytarUtil.h"
 
-
-// NOTES:
-// have to use chmod to make executables executable when we extract them
-// use symlink to create soft links
 void extract(char *archivePath) {
-  printf("extracting from %s \n",archivePath);
 
   FILE *fp = fopen(archivePath, "r");
   if (fp == NULL) {
       perror(archivePath);
+      return;
   } 
-  else {
-    bool reading = true;
+  
+  while (true) {
+    struct tar_header header;
+    if (fread(&header, 1, BLOCK_SIZE, fp) != BLOCK_SIZE) {
+      // check if we found an error
+      if (ferror(fp) != 0) {
+        perror(archivePath);
+        clearerr(fp);
+      }
+      // we break regardless
+      break;
+    }
     
-    while (reading) {
-      struct tar_header header;
-      if (fread(&header, 1, BLOCK_SIZE, fp) != BLOCK_SIZE) {
-        perror("reading archive");
-        return;
-      }
-      
-      // check it is a header by the check-sum
-      int givenChksum = octalStringToDecimal(header.chksum);
-      int realChksum = 0;
-      memset(header.chksum, ' ', 8);
-      char *p = (char*)&header;
-      for (int i = 0; i < BLOCK_SIZE; i++) {
-        realChksum += *p;
-        p++;
-      }
-      if (realChksum == givenChksum) {
-        extractObject(fp, header);
-      }
+    // check it is a header by the check-sum
+    int givenChksum = octalStringToDecimal(header.chksum);
+    int realChksum = 0;
+    memset(header.chksum, ' ', 8);
+    char *p = (char*)&header;
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+      realChksum += *p;
+      p++;
+    }
+    if (realChksum == givenChksum) {
+      extractObject(fp, header);
     }
   }
+
   if (fclose(fp) != 0) {
     perror(archivePath);
   }
@@ -51,7 +61,7 @@ void extractObject(FILE *archivep, struct tar_header header) {
     extractDirectory(archivep, header);
   }
   else {
-    printf("object type not recognized, could not extract");
+    printf("%s: Object type not supported\n", header.name);
     return;
   }
 }
@@ -99,7 +109,6 @@ void extractFile(FILE *archivep, struct tar_header header) {
 }
 
 void extractLink(FILE *archivep, struct tar_header header) {
-  printf("extracting %s \n", header.name);
   if (symlink(header.linkname, header.name) != 0) {
     perror(header.name);
     return;
@@ -109,10 +118,15 @@ void extractLink(FILE *archivep, struct tar_header header) {
 void extractDirectory(FILE *archivep, struct tar_header header) {
   char filepath[255];
   memset(filepath, 0, 255);
-  strcat(filepath, header.prefix);
-  strcat(filepath, header.name);
-  
-  printf("extracting %s \n", filepath);
+  if (header.prefix[0] != '\0') { 
+    strncat(filepath, header.prefix, 155);
+  } 
+  if (header.name[99] != '\0') { 
+    strncat(filepath, header.name, 100);
+  } 
+  else {
+    strcat(filepath, header.name);
+  }
   
   if (mkdir(filepath, octalStringToDecimal(header.mode)) != 0) {
     perror(filepath);
@@ -132,8 +146,6 @@ bool createFile(char* filepath, struct tar_header header) {
   else {
     strcat(filepath, header.name);
   }
-
-  printf("extracting %s \n", filepath);
   
   // create the file, trying to create necessary directories
   FILE *fp = fopen(filepath, "w");

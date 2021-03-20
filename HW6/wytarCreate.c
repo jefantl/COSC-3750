@@ -1,3 +1,14 @@
+/*
+* wytarCreate.c
+* Author: Jason Fantl
+* Date: Mar 16, 2021
+*
+* COSC 3750, Homework 6
+*
+* A helper file for wytar.c that creates a tar archive from the given files
+*
+*/
+
 #include "wytarUtil.h"
 
 void save(char *outFilepath, char *filesToSave[], int filesStart, int filesEnd) {
@@ -98,9 +109,13 @@ void saveObject(FILE *archive, char *inPath, char* filename) {
     memset(header.linkname, '\0', 100);
     sprintf(header.size, "%011lo", statbuf.st_size);
   }
+  else {
+    printf("%s: Object type not supported\n", objectPath);
+    return;
+  }
 
-  strncpy(header.magic, TMAGIC, 6);
-  strncpy(header.version, TVERSION, 2);
+  memcpy(header.magic, TMAGIC, 6);
+  memcpy(header.version, TVERSION, 2);
   
   struct passwd *pStruct = getpwuid(statbuf.st_uid);
   strncpy(header.uname, pStruct->pw_name, 32);
@@ -118,7 +133,7 @@ void saveObject(FILE *archive, char *inPath, char* filename) {
     p++;
   }
   sprintf(header.chksum, "%07o", chksum);
-    
+  
   saveHeader(archive, header);
   
   if (S_ISDIR(statbuf.st_mode)) {

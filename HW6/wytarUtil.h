@@ -1,3 +1,15 @@
+/*
+* wytarUtil.h
+* Author: Jason Fantl
+* Date: Mar 16, 2021
+*
+* COSC 3750, Homework 6
+*
+* This is the header for the creat and extract helper files.
+* It also contains our header struct
+*
+*/
+
 #ifndef WYTARUTIL_H
 #define WYTARUTIL_H
 
