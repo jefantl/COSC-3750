@@ -1,3 +1,14 @@
+/*
+* wytalkD.c
+* Author: Jason Fantl
+* Date: May 25, 2021
+*
+* COSC 3750, Homework 7
+*
+* Daemon for a basic talk application. 
+*
+*/
+
 #include "wytalkUtil.h"
 #include "socketfun.h"
 

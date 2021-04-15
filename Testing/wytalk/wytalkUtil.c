@@ -1,9 +1,23 @@
+/*
+* wytalkUtil.c
+* Author: Jason Fantl
+* Date: May 25, 2021
+*
+* COSC 3750, Homework 7
+*
+* Basic functions to send and recieve over sockets.
+*
+*/
+
 #include "wytalkUtil.h"
 
 int sendUserInput(FILE* fp) {
   char buffer[BUFFER_SIZE];
   memset(buffer, 0, BUFFER_SIZE);
-  fgets(buffer, BUFFER_SIZE, stdin);
+  
+  if (fgets(buffer, BUFFER_SIZE, stdin) == NULL) {
+    return -1;
+  }
 
   if (fwrite(buffer, 1, strlen(buffer), fp) != strlen(buffer)) {
     perror("Writting to socket");
@@ -35,11 +49,7 @@ int recieveSocket(FILE* fp, char* buffer) {
   return -1;
 }
 
-// should we send a closed message?
-// should we catch close sgnals to close properly?
 void closeSocket(FILE *fp) {
-  
-  
   if (fclose(fp) != 0) {
     perror("Closing socket");
   }

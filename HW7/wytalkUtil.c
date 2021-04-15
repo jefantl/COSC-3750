@@ -1,3 +1,14 @@
+/*
+* wytalkUtil.c
+* Author: Jason Fantl
+* Date: May 25, 2021
+*
+* COSC 3750, Homework 7
+*
+* Basic functions to send and recieve over sockets.
+*
+*/
+
 #include "wytalkUtil.h"
 
 int sendUserInput(FILE* fp) {

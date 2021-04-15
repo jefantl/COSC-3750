@@ -1,3 +1,14 @@
+/*
+* wytalkD.c
+* Author: Jason Fantl
+* Date: May 25, 2021
+*
+* COSC 3750, Homework 7
+*
+* Daemon for a basic talk application. 
+*
+*/
+
 #include "wytalkUtil.h"
 #include "socketfun.h"
 
@@ -27,9 +38,8 @@ int main()
     return 0;
   } 
   
-  bool connected = true;
   
-  while (connected) {
+  while (true) {
     char buffer[BUFFER_SIZE];
     if (recieveSocket(fp, buffer) != 0) {
       printf("%s", buffer);

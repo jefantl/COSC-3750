@@ -1,3 +1,14 @@
+/*
+* wytalkC.c
+* Author: Jason Fantl
+* Date: May 25, 2021
+*
+* COSC 3750, Homework 7
+*
+* Client for a basic talk application. 
+*
+*/
+
 #include "socketfun.h"
 #include "wytalkUtil.h"
 

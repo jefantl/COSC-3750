@@ -11,7 +11,9 @@
 CC = gcc
 CFLAGS = -ggdb -Wall
 
-.PHONY: tidy clean
+.PHONY: wytalk tidy clean
+
+wytalk: wytalkC wytalkD
 
 wytalkC: wytalkC.c wytalkUtil.c socketfun.c socketfun.h
 	${CC} ${CFLAGS} wytalkC.c wytalkUtil.c socketfun.c -o wytalkC
